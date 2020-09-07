@@ -12,5 +12,14 @@ describe("GET /users는 ", () => {
           done(); // 테스트가 끝났음을 알리는 콜백 => 비동기로 동작하기 때문에 필요
         });
     });
+
+    it("최대 limit 개수만큼 응답한다.", (done) => {
+      request(app)
+        .get("/users?limit=2")
+        .end((err, res) => {
+          res.body.should.have.lengthOf(2);
+          done();
+        });
+    });
   });
 });
