@@ -1,8 +1,8 @@
-const capitialize = (text) => {
-  return text;
+const capitalize = (text) => {
+  return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
-// export default capitialize;
+// export default capitalize;
 module.exports = {
-  capitialize, // capitialize : capitialize와 동일
+  capitalize, // capitalize : capitalize와 동일
 };
