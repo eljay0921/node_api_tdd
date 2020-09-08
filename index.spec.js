@@ -69,3 +69,27 @@ describe("TEST :: DELETE USERS BY ID", () => {
     });
   });
 });
+
+describe("TEST :: POST USERS BY USER INFO", () => {
+  describe("성공하는 케이스", () => {
+    const testName = "jake";
+    let body = "";
+    before((done) => {
+      request(app)
+        .post("/users")
+        .send({
+          name: testName,
+        })
+        .expect(201)
+        .end((_, res) => {
+          body = res.body;
+          done();
+        });
+    });
+
+    it("추가된 유저의 정보를 반환한다.", (done) => {
+      body.should.have.property("name", testName);
+      done();
+    });
+  });
+});

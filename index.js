@@ -1,6 +1,7 @@
 const morgan = require("morgan");
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
 const port = 3000;
 
 let users = [
@@ -19,6 +20,8 @@ let users = [
 ];
 
 app.use(morgan("dev"));
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 app.get("/", (req, res) => {
   res.send("Welcome to my first node server.");
@@ -55,6 +58,15 @@ app.delete("/users/:id", (req, res) => {
 
   const remainUsers = users.filter((user) => user.id !== id);
   return res.status(204).end();
+});
+
+app.post("/users", (req, res) => {
+  const name = req.body.name;
+  const id = Date.now();
+  const user = { id, name };
+  users.push(user);
+
+  res.status(201).json(user).end();
 });
 
 app.listen(port, () => {
