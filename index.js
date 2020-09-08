@@ -33,6 +33,20 @@ app.get("/users", (req, res) => {
   }
 });
 
+app.get("/users/:id", (req, res) => {
+  const id = parseInt(req.params.id, 10);
+  if (Number.isNaN(id)) {
+    return res.status(400).end();
+  } else {
+    const targetUsers = users.filter((user) => user.id === id);
+    if (targetUsers.length < 1) {
+      return res.status(404).end();
+    } else {
+      return res.json(targetUsers[0]);
+    }
+  }
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });
