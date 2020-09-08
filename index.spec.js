@@ -2,7 +2,7 @@ const request = require("supertest");
 const should = require("should");
 const app = require("./index");
 
-describe("GET /users는 ", () => {
+describe("TEST :: GET USERS", () => {
   describe("성공하는 케이스, ", () => {
     it("user 객체를 담은 배열로 응답한다.", (done) => {
       request(app)
@@ -33,7 +33,7 @@ describe("GET /users는 ", () => {
   });
 });
 
-describe("GET /users/1은 ", () => {
+describe("TEST :: GET USERS BY ID", () => {
   describe("성공하는 케이스,", () => {
     it("id가 1인 유저 객체를 반환한다.", (done) => {
       request(app)
@@ -52,6 +52,20 @@ describe("GET /users/1은 ", () => {
 
     it("id로 유저를 찾을 수 없으면 404를 응답한다.", (done) => {
       request(app).get("/users/9999").expect(404).end(done);
+    });
+  });
+});
+
+describe("TEST :: DELETE USERS BY ID", () => {
+  describe("성공하는 케이스", () => {
+    it("id가 1인 사용자를 삭제하고, HTTP Status 204를 응답한다.", (done) => {
+      request(app).delete("/users/1").expect(204).end(done);
+    });
+  });
+
+  describe("실패하는 케이스", () => {
+    it("id가 숫자형이 아니면 HTTP Status 400을 응답한다.", (done) => {
+      request(app).delete("/users/one").expect(400).end(done);
     });
   });
 });
