@@ -22,4 +22,13 @@ describe("GET /users는 ", () => {
         });
     });
   });
+
+  describe("실패 시", () => {
+    it("limit이 숫자형이 아니면 HTTP Status 400을 응답한다.", (done) => {
+      request(app)
+        .get("/users?limit=two")
+        .expect(400) // should를 사용하지 않고, supertest에서 지원하는 expect를 통해 검증
+        .end(done);
+    });
+  });
 });

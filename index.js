@@ -25,8 +25,12 @@ app.get("/", (req, res) => {
 });
 
 app.get("/users", (req, res) => {
-  const limit = req.query.limit;
-  res.json(users.slice(0, limit));
+  const limit = parseInt(req.query.limit ?? 10, 10);
+  if (Number.isNaN(limit)) {
+    return res.status(400).end();
+  } else {
+    res.json(users.slice(0, limit));
+  }
 });
 
 app.listen(port, () => {
