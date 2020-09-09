@@ -77,6 +77,33 @@ app.post("/users", (req, res) => {
   res.status(201).json(user).end();
 });
 
+app.put("/users/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const name = req.body.name;
+
+  if (Number.isNaN(id) || !name) {
+    return res.status(400).end();
+  }
+
+  if (users.find((user) => user.name === name)) {
+    return res.status(409).end();
+  }
+
+  let updatedUserInfo;
+  users.forEach((user, idx) => {
+    if (user.id === id) {
+      users[idx].name = name;
+      updatedUserInfo = users[idx];
+    }
+  });
+
+  if (!updatedUserInfo) {
+    return res.status(404).end();
+  }
+
+  res.json(updatedUserInfo);
+});
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);
 });

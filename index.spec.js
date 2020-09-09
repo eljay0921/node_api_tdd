@@ -116,3 +116,48 @@ describe("TEST :: POST USERS BY USER INFO", () => {
     });
   });
 });
+
+describe("TEST :: PUT USERS BY USER INFO", () => {
+  const id = 1;
+  const name = "jiiiiin";
+
+  describe("성공하는 케이스", () => {
+    it("수정된 유저 정보를 반환한다.", (done) => {
+      request(app)
+        .put(`/users/${id}`)
+        .send({
+          name,
+        })
+        .end((err, res) => {
+          res.body.should.have.property("name", name);
+          done();
+        });
+    });
+  });
+
+  describe("실패하는 케이스", () => {
+    it("id가 숫자형이 아니면 HTTP Status 400을 응답한다.", (done) => {
+      request(app).put("/users/one").expect(400).end(done);
+    });
+
+    it("name이 없으면 HTTP Status 400을 응답한다.", (done) => {
+      request(app).put("/users/1").send({ name: "" }).expect(400).end(done);
+    });
+
+    it("존재하지 않는 유저의 id를 전달하면 HTTP Status 404를 응답한다.", (done) => {
+      request(app)
+        .put("/users/8888")
+        .send({ name: "oh-no" })
+        .expect(404)
+        .end(done);
+    });
+
+    it("name이 이미 존재하면 HTTP Status 409를 응답한다.", (done) => {
+      request(app)
+        .put("/users/3")
+        .send({ name: "syeon" })
+        .expect(409)
+        .end(done);
+    });
+  });
+});
