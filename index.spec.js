@@ -71,8 +71,9 @@ describe("TEST :: DELETE USERS BY ID", () => {
 });
 
 describe("TEST :: POST USERS BY USER INFO", () => {
+  const testName = "jake";
+
   describe("성공하는 케이스", () => {
-    const testName = "jake";
     let body = "";
     before((done) => {
       request(app)
@@ -90,6 +91,28 @@ describe("TEST :: POST USERS BY USER INFO", () => {
     it("추가된 유저의 정보를 반환한다.", (done) => {
       body.should.have.property("name", testName);
       done();
+    });
+  });
+
+  describe("실패하는 케이스", () => {
+    it("name 파라미터가 없으면 HTTP Status 400을 응답한다.", (done) => {
+      request(app)
+        .post("/users")
+        .send({
+          myName: testName,
+        })
+        .expect(400)
+        .end(done);
+    });
+
+    it("name이 중복이면 HTTP Status 409를 응답한다.", (done) => {
+      request(app)
+        .post("/users")
+        .send({
+          name: "whatthef",
+        })
+        .expect(409)
+        .end(done);
     });
   });
 });
