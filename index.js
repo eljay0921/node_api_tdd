@@ -5,7 +5,10 @@ const bodyParser = require("body-parser");
 const port = 3000;
 const user = require("./api/user/index");
 
-app.use(morgan("dev"));
+if (process.env.NODE_ENV !== "test") {
+  app.use(morgan("dev"));
+}
+
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
@@ -14,9 +17,5 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", user);
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
 
 module.exports = app;
