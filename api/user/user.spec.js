@@ -1,6 +1,6 @@
 const request = require("supertest");
 const should = require("should");
-const app = require("./index");
+const app = require("../../index");
 
 describe("TEST :: GET USERS", () => {
   describe("성공하는 케이스, ", () => {
