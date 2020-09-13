@@ -83,7 +83,7 @@ describe("TEST :: DELETE USERS BY ID", () => {
   });
 });
 
-describe.only("TEST :: POST USERS BY USER INFO", () => {
+describe("TEST :: POST USERS BY USER INFO", () => {
   const testData = [{ name: "jin" }, { name: "syeon" }, { name: "doongdung" }];
   before(() => models.sequelize.sync({ force: true }));
   before(() => models.Users.bulkCreate(testData));
@@ -134,7 +134,11 @@ describe.only("TEST :: POST USERS BY USER INFO", () => {
   });
 });
 
-describe("TEST :: PUT USERS BY USER INFO", () => {
+describe.only("TEST :: PUT USERS BY USER INFO", () => {
+  const testData = [{ name: "jin" }, { name: "syeon" }, { name: "doongdung" }];
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.Users.bulkCreate(testData));
+
   const id = 1;
   const name = "jiiiiin";
 

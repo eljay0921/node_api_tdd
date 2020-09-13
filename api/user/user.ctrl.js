@@ -70,23 +70,25 @@ const update = (req, res) => {
     return res.status(400).end();
   }
 
-  if (users.find((user) => user.name === name)) {
-    return res.status(409).end();
-  }
-
-  let updatedUserInfo;
-  users.forEach((user, idx) => {
-    if (user.id === id) {
-      users[idx].name = name;
-      updatedUserInfo = users[idx];
+  models.Users.findOne({ where: { id } }).then((user) => {
+    if (!user) {
+      return res.status(404).end();
+    } else {
+      user.name = name;
+      user
+        .save()
+        .then((user) => {
+          return res.json(user).end();
+        })
+        .catch((err) => {
+          if (err.name === "SequelizeUniqueConstraintError") {
+            return res.status(409).end();
+          } else {
+            return res.status(500).end();
+          }
+        });
     }
   });
-
-  if (!updatedUserInfo) {
-    return res.status(404).end();
-  }
-
-  res.json(updatedUserInfo);
 };
 
 module.exports = {
