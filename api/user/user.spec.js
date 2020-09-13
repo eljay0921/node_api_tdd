@@ -3,18 +3,18 @@ const should = require("should");
 const app = require("../../index");
 const models = require("../../models");
 
-describe("TEST :: GET USERS", () => {
+describe.only("TEST :: GET USERS", () => {
   describe("성공하는 케이스, ", () => {
-    // before를 통해 db sync를 맞춘다.
-    // before((done) => {
-    //   models.sequelize.sync({ force: true }).then(() => done());
-    // });
+    const testData = [
+      { name: "jin" },
+      { name: "syeon" },
+      { name: "doongdung" },
+    ];
 
-    // before(done) 콜백을 선언하지 않는 것은 mocha에서 promise(sync)를 리턴하면 비동기 작업을 자동으로 보장(?)하기 때문
     before(() => models.sequelize.sync({ force: true }));
+    before(() => models.Users.bulkCreate(testData));
 
-    // DB연동을 진행하며 테스트 하나씩 해결하기 위해 only를 붙임 => 해당 테스트만 실행함
-    it.only("user 객체를 담은 배열로 응답한다.", (done) => {
+    it("user 객체를 담은 배열로 응답한다.", (done) => {
       request(app)
         .get("/users")
         .end((err, res) => {

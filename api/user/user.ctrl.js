@@ -6,12 +6,10 @@ const index = (req, res) => {
     return res.status(400).end();
   }
 
-  // 기존
-  // res.json(users.slice(0, limit));
-
-  // 수정
-  models.Users.findAll({}).then((users) => {
-    res.json(users.slice(0, limit));
+  models.Users.findAll({
+    limit,
+  }).then((users) => {
+    res.json(users);
   });
 };
 
