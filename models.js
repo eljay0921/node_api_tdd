@@ -4,6 +4,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const sequelize = new Sequelize({
   dialect: "sqlite",
   storage: "./db.sqlite",
+  logging: false,
 });
 
 // 시퀄라이즈 Users 모델 정의
