@@ -1,4 +1,5 @@
 const models = require("../../models");
+const { json } = require("body-parser");
 
 const index = (req, res) => {
   const limit = parseInt(req.query.limit ?? 10, 10);
@@ -19,12 +20,17 @@ const show = (req, res) => {
     return res.status(400).end();
   }
 
-  const targetUsers = users.filter((user) => user.id === id);
-  if (targetUsers.length < 1) {
-    return res.status(404).end();
-  }
-
-  res.json(targetUsers[0]);
+  models.Users.findOne({
+    where: {
+      id: id,
+    },
+  }).then((user) => {
+    if (!user) {
+      return res.status(404).end();
+    } else {
+      return res.json(user);
+    }
+  });
 };
 
 const remove = (req, res) => {
