@@ -1,17 +1,4 @@
-let users = [
-  {
-    id: 1,
-    name: "jin",
-  },
-  {
-    id: 2,
-    name: "syeon",
-  },
-  {
-    id: 3,
-    name: "whatthef",
-  },
-];
+const models = require("../../models");
 
 const index = (req, res) => {
   const limit = parseInt(req.query.limit ?? 10, 10);
@@ -19,7 +6,13 @@ const index = (req, res) => {
     return res.status(400).end();
   }
 
-  res.json(users.slice(0, limit));
+  // 기존
+  // res.json(users.slice(0, limit));
+
+  // 수정
+  models.Users.findAll({}).then((users) => {
+    res.json(users.slice(0, limit));
+  });
 };
 
 const show = (req, res) => {
