@@ -4,6 +4,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const port = 3000;
 const user = require("./api/user/index");
+const photo = require("./api/photo/index");
 
 if (process.env.NODE_ENV !== "test") {
   app.use(morgan("dev"));
@@ -17,5 +18,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/users", user);
+app.use("/photo", photo);
 
 module.exports = app;
