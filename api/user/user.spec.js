@@ -43,7 +43,7 @@ describe("TEST :: GET USERS", () => {
   });
 });
 
-describe.only("TEST :: GET USERS BY ID", () => {
+describe("TEST :: GET USERS BY ID", () => {
   describe("성공하는 케이스,", () => {
     it("id가 1인 유저 객체를 반환한다.", (done) => {
       request(app)
@@ -66,7 +66,7 @@ describe.only("TEST :: GET USERS BY ID", () => {
   });
 });
 
-describe("TEST :: DELETE USERS BY ID", () => {
+describe.only("TEST :: DELETE USERS BY ID", () => {
   describe("성공하는 케이스", () => {
     it("id가 1인 사용자를 삭제하고, HTTP Status 204를 응답한다.", (done) => {
       request(app).delete("/users/1").expect(204).end(done);

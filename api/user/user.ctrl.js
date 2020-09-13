@@ -22,7 +22,7 @@ const show = (req, res) => {
 
   models.Users.findOne({
     where: {
-      id: id,
+      id,
     },
   }).then((user) => {
     if (!user) {
@@ -39,7 +39,7 @@ const remove = (req, res) => {
     return res.status(400).end();
   }
 
-  const remainUsers = users.filter((user) => user.id !== id);
+  models.Users.destroy({ where: { id } });
   return res.status(204).end();
 };
 
