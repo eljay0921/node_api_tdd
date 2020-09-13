@@ -12,6 +12,7 @@ const Users = sequelize.define("Users", {
   // id는 자동으로 생성해준다.
   name: {
     type: DataTypes.STRING,
+    unique: true,
     allowNull: false,
   },
 });

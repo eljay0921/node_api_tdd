@@ -4,16 +4,11 @@ const app = require("../../index");
 const models = require("../../models");
 
 describe("TEST :: GET USERS", () => {
+  const testData = [{ name: "jin" }, { name: "syeon" }, { name: "doongdung" }];
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.Users.bulkCreate(testData));
+
   describe("성공하는 케이스, ", () => {
-    const testData = [
-      { name: "jin" },
-      { name: "syeon" },
-      { name: "doongdung" },
-    ];
-
-    before(() => models.sequelize.sync({ force: true }));
-    before(() => models.Users.bulkCreate(testData));
-
     it("user 객체를 담은 배열로 응답한다.", (done) => {
       request(app)
         .get("/users")
@@ -44,6 +39,10 @@ describe("TEST :: GET USERS", () => {
 });
 
 describe("TEST :: GET USERS BY ID", () => {
+  const testData = [{ name: "jin" }, { name: "syeon" }, { name: "doongdung" }];
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.Users.bulkCreate(testData));
+
   describe("성공하는 케이스,", () => {
     it("id가 1인 유저 객체를 반환한다.", (done) => {
       request(app)
@@ -66,7 +65,11 @@ describe("TEST :: GET USERS BY ID", () => {
   });
 });
 
-describe.only("TEST :: DELETE USERS BY ID", () => {
+describe("TEST :: DELETE USERS BY ID", () => {
+  const testData = [{ name: "jin" }, { name: "syeon" }, { name: "doongdung" }];
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.Users.bulkCreate(testData));
+
   describe("성공하는 케이스", () => {
     it("id가 1인 사용자를 삭제하고, HTTP Status 204를 응답한다.", (done) => {
       request(app).delete("/users/1").expect(204).end(done);
@@ -80,7 +83,11 @@ describe.only("TEST :: DELETE USERS BY ID", () => {
   });
 });
 
-describe("TEST :: POST USERS BY USER INFO", () => {
+describe.only("TEST :: POST USERS BY USER INFO", () => {
+  const testData = [{ name: "jin" }, { name: "syeon" }, { name: "doongdung" }];
+  before(() => models.sequelize.sync({ force: true }));
+  before(() => models.Users.bulkCreate(testData));
+
   const testName = "jake";
 
   describe("성공하는 케이스", () => {
@@ -109,7 +116,7 @@ describe("TEST :: POST USERS BY USER INFO", () => {
       request(app)
         .post("/users")
         .send({
-          myName: testName,
+          myName: "",
         })
         .expect(400)
         .end(done);
@@ -119,7 +126,7 @@ describe("TEST :: POST USERS BY USER INFO", () => {
       request(app)
         .post("/users")
         .send({
-          name: "whatthef",
+          name: testName,
         })
         .expect(409)
         .end(done);
